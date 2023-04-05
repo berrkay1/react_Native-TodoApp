@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  StyleSheet,
+  View,
+} from "react-native";
+import InputCard from "./src/components/InputCard";
+import TodoCard from "./src/components/TodoCard";
 
 export default function App() {
   const [inputValue, setInputValue] = useState("");
@@ -7,24 +12,22 @@ export default function App() {
 
   const onAddTodo = () => {
     setTodo([...todo, { text: inputValue, isCompleted: true }]);
+    setInputValue('')
   };
- 
+
+  const clearAllTodos = () => {
+    setTodo([]);
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputCol}>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(text) => setInputValue(text)}
-          value={inputValue}
-        />
-        <Button title="Ekle" onPress={onAddTodo} />
-      </View>
-      <View>
-        {todo.map((item, idx) => (
-          <Text key={idx}>{item.text}</Text>
-        ))}
-      </View>
+      <TodoCard todo={todo} setTodo={setTodo} />
+      <InputCard
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        onAddTodo={onAddTodo}
+        clearAllTodos={clearAllTodos}
+      />
     </View>
   );
 }
@@ -32,24 +35,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#102027",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  inputStyle: {
-    backgroundColor: "#ccc",
-    padding: 7,
-    borderRadius: 10,
-    width: 100,
-    marginRight: 5,
-  },
-  inputCol: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  btn: {
-    borderRadius: 10,
-    width: 50,
+    justifyContent: "space-between",
+    padding: 10,
   },
 });
